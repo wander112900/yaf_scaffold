@@ -1,6 +1,6 @@
 # A base application for Yaf framework
 
-Yaf framework documentation can be found at [php.net](http://www.php.net/manual/en/book.yaf.php)
+Base on [Yaf](https://github.com/laruence/php-yaf)
 
 Base on [yaf_base_application](https://github.com/akDeveloper/yaf_base_application)
 
@@ -24,7 +24,7 @@ Base on [yaf_base_application](https://github.com/akDeveloper/yaf_base_applicati
  
 ## Additions
 
-* Validation library `lib/Validations` from [another project](https://github.com/akDeveloper/Lycan) of mine for validating classes.
+* Validation library `lib/Validations` from [another project](https://github.com/akDeveloper/Lycan) of andreas or validating classes.
 * A Layout class that allows to render views inside a base html layout `lib/Layout.php`. Layouts directory can be defined in application.ini
 * A Logger class `lib/Logger.php` and a `LoggerPlugin` to log info about requests and database queries. (Make sure that log directory is readable.)
 * A custom Request class `lib/Request.php` that extends `Yaf\Request\Http` and offers input filter for request params, posts and queries.
