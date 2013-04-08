@@ -68,7 +68,7 @@ class Cache {
         case 'redis':
             return new Drivers\Redis(Redis::db());
         case 'apc':
-            return new Cache\Drivers\Apc($objConfig->get('cache.key'));
+            return new Drivers\Apc($objConfig->get('cache.key'));
         default:
             throw new \Exception("Cache driver {$driver} is not supported.");
         }
