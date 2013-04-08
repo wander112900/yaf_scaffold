@@ -15,21 +15,18 @@
  * determinate the name of the Model to load {@link get_model_name()}
  *
  */
-abstract class RestfullController extends ApplicationController
-{
+abstract class RestfullController extends ApplicationController {
+
     private $_resource;
-
     private $_resource_collection;
-
     private $_index_url;
-    
+
     /**
      * Loads and displays all items from a resource collection.
      *
      * @return void
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $collection = $this->getResourceCollection();
         $this->getView()->assign('collection', $collection);
     }
@@ -42,10 +39,9 @@ abstract class RestfullController extends ApplicationController
      *
      * @param int $id The id of resource to load
      */
-    public function showAction($id)
-    {
+    public function showAction($id) {
         $resource = $this->getResource($id);
-        
+
         if (null === $resource) {
             return $this->forwardTo404();
         } else {
@@ -53,16 +49,14 @@ abstract class RestfullController extends ApplicationController
         }
     }
 
-    public function newAction()
-    {
+    public function newAction() {
         $model = $this->get_model_name();
         $resource = new $model();
         $this->get_index_url();
         $this->getView()->assign('resource', $resource);
     }
 
-    public function createAction()
-    {
+    public function createAction() {
         $model = $this->get_model_name();
 
         $resource = new $model($this->get_resource_params($model));
@@ -72,17 +66,16 @@ abstract class RestfullController extends ApplicationController
             return false;
         } else {
             Yaf\Dispatcher::getInstance()->disableView();
-            echo $this->render('new', array('resource'=>$resource, 
-                'index_url'=>$this->get_index_url()));
+            echo $this->render('new', array('resource' => $resource,
+                'index_url' => $this->get_index_url()));
             return false;
         }
     }
 
-    public function editAction($id)
-    {
+    public function editAction($id) {
 
         $resource = $this->getResource($id);
-        
+
         if (null === $resource) {
             return $this->forwardTo404();
         } else {
@@ -91,14 +84,13 @@ abstract class RestfullController extends ApplicationController
         }
     }
 
-    public function updateAction($id)
-    {
+    public function updateAction($id) {
         $resource = $this->getResource($id);
-        
+
         if (null === $resource) {
             return $this->forwardTo404();
-        } 
-        
+        }
+
         $model = $this->get_model_name();
 
         if ($resource->updateAttributes($this->get_resource_params($model))) {
@@ -106,16 +98,15 @@ abstract class RestfullController extends ApplicationController
             return false;
         } else {
             Yaf\Dispatcher::getInstance()->disableView();
-            echo $this->render('edit', array('resource'=>$resource, 
-                'index_url'=>$this->get_index_url()));
+            echo $this->render('edit', array('resource' => $resource,
+                'index_url' => $this->get_index_url()));
             return false;
         }
     }
 
-    public function deleteAction()
-    {
+    public function deleteAction() {
         $resource = $this->getResource();
-        
+
         if (null === $resource) {
             return $this->forwardTo404();
         }
@@ -136,8 +127,7 @@ abstract class RestfullController extends ApplicationController
      * @return Orm\Mysql\Collection A collection object handling elements of 
      *                              the resource
      */
-    public function getResourceCollection()
-    {
+    public function getResourceCollection() {
         $model = $this->get_model_name();
 
         return $model::find()->fetchAll();
@@ -152,45 +142,42 @@ abstract class RestfullController extends ApplicationController
      *
      * @param int $id The id of resource to load.
      */
-    public function getResource($id)
-    {
+    public function getResource($id) {
         if (null === $this->_resource) {
             $model = $this->get_model_name();
             $this->_resource = $model::findById($id)
-                ->fetch();
+                    ->fetch();
         }
         return $this->_resource;
     }
 
-    protected function get_model_name()
-    {
+    protected function get_model_name() {
         return Inflect::singularize($this->getRequest()->getControllerName())
-            . "Model";       
+                . "Model";
     }
 
-    protected function get_resource_params($model)
-    {
+    protected function get_resource_params($model) {
         $param_name = Inflect::underscore(str_replace('Model', '', $model));
         $post = $this->getRequest()->getPost();
 
         return $post[$param_name];
     }
 
-    protected function get_index_url()
-    {
+    protected function get_index_url() {
 
         if (null !== $this->_index_url) {
             return $this->_index_url;
         }
 
         $module = $this->getRequest()->getModuleName();
-        
+
         $this->_index_url = "/"
-            . ('index' == strtolower($module) ? null : $module. "/")
-            . Inflect::underscore($this->getRequest()->getControllerName()) 
-            . "/index";
-        
+                . ('index' == strtolower($module) ? null : $module . "/")
+                . Inflect::underscore($this->getRequest()->getControllerName())
+                . "/index";
+
         $this->getView()->assign('index_url', $this->_index_url);
         return $this->_index_url;
     }
+
 }

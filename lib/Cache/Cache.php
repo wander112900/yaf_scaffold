@@ -1,4 +1,8 @@
-<?php namespace Cache; use Closure;
+<?php
+
+namespace Cache;
+
+use Closure;
 
 class Cache {
 
@@ -22,22 +26,21 @@ class Cache {
      * If no driver name is specified, the default will be returned.
      *
      * <code>
-     *		// Get the default cache driver instance
-     *		$driver = Cache::driver();
+     * 		// Get the default cache driver instance
+     * 		$driver = Cache::driver();
      *
-     *		// Get a specific cache driver instance by name
-     *		$driver = Cache::driver('memcached');
+     * 		// Get a specific cache driver instance by name
+     * 		$driver = Cache::driver('memcached');
      * </code>
      *
      * @param  string        $driver
      * @return Cache\Drivers\Driver
      */
-    public static function driver($driver = null)
-    {
-        if (is_null($driver)) $driver = \Yaf\Application::app()->getConfig()->get('cache.driver');
+    public static function driver($driver = null) {
+        if (is_null($driver))
+            $driver = \Yaf\Application::app()->getConfig()->get('cache.driver');
 
-        if ( ! isset(static::$drivers[$driver]))
-        {
+        if (!isset(static::$drivers[$driver])) {
             static::$drivers[$driver] = static::factory($driver);
         }
 
@@ -50,27 +53,23 @@ class Cache {
      * @param  string  $driver
      * @return Cache\Drivers\Driver
      */
-    protected static function factory($driver)
-    {
-        if (isset(static::$registrar[$driver]))
-        {
+    protected static function factory($driver) {
+        if (isset(static::$registrar[$driver])) {
             $resolver = static::$registrar[$driver];
 
             return $resolver();
         }
 
         $objConfig = \Yaf\Application::app()->getConfig();
-        switch ($driver)
-        {
-        case 'memcached':
-            return new Drivers\Memcached(Memcached::connection(),
-                $objConfig->get('cache.key'));
-        case 'redis':
-            return new Drivers\Redis(Redis::db());
-        case 'apc':
-            return new Drivers\Apc($objConfig->get('cache.key'));
-        default:
-            throw new \Exception("Cache driver {$driver} is not supported.");
+        switch ($driver) {
+            case 'memcached':
+                return new Drivers\Memcached(Memcached::connection(), $objConfig->get('cache.key'));
+            case 'redis':
+                return new Drivers\Redis(Redis::db());
+            case 'apc':
+                return new Drivers\Apc($objConfig->get('cache.key'));
+            default:
+                throw new \Exception("Cache driver {$driver} is not supported.");
         }
     }
 
@@ -81,8 +80,7 @@ class Cache {
      * @param  Closure  $resolver
      * @return void
      */
-    public static function extend($driver, Closure $resolver)
-    {
+    public static function extend($driver, Closure $resolver) {
         static::$registrar[$driver] = $resolver;
     }
 
@@ -90,15 +88,14 @@ class Cache {
      * Magic Method for calling the methods on the default cache driver.
      *
      * <code>
-     *		// Call the "get" method on the default cache driver
-     *		$name = Cache::get('name');
+     * 		// Call the "get" method on the default cache driver
+     * 		$name = Cache::get('name');
      *
-     *		// Call the "put" method on the default cache driver
-     *		Cache::put('name', 'Taylor', 15);
+     * 		// Call the "put" method on the default cache driver
+     * 		Cache::put('name', 'Taylor', 15);
      * </code>
      */
-    public static function __callStatic($method, $parameters)
-    {
+    public static function __callStatic($method, $parameters) {
         return call_user_func_array(array(static::driver(), $method), $parameters);
     }
 

@@ -1,4 +1,6 @@
-<?php namespace Cache\Drivers;
+<?php
+
+namespace Cache\Drivers;
 
 class Redis extends Driver {
 
@@ -15,8 +17,7 @@ class Redis extends Driver {
      * @param  Laravel\Redis  $redis
      * @return void
      */
-    public function __construct(Cache\Redis $redis)
-    {
+    public function __construct(Cache\Redis $redis) {
         $this->redis = $redis;
     }
 
@@ -26,9 +27,8 @@ class Redis extends Driver {
      * @param  string  $key
      * @return bool
      */
-    public function has($key)
-    {
-        return ( ! is_null($this->redis->get($key)));
+    public function has($key) {
+        return (!is_null($this->redis->get($key)));
     }
 
     /**
@@ -37,10 +37,8 @@ class Redis extends Driver {
      * @param  string  $key
      * @return mixed
      */
-    protected function retrieve($key)
-    {
-        if ( ! is_null($cache = $this->redis->get($key)))
-        {
+    protected function retrieve($key) {
+        if (!is_null($cache = $this->redis->get($key))) {
             return unserialize($cache);
         }
     }
@@ -49,8 +47,8 @@ class Redis extends Driver {
      * Write an item to the cache for a given number of minutes.
      *
      * <code>
-     *		// Put an item in the cache for 15 minutes
-     *		Cache::put('name', 'Taylor', 15);
+     * 		// Put an item in the cache for 15 minutes
+     * 		Cache::put('name', 'Taylor', 15);
      * </code>
      *
      * @param  string  $key
@@ -58,8 +56,7 @@ class Redis extends Driver {
      * @param  int     $minutes
      * @return void
      */
-    public function put($key, $value, $minutes)
-    {
+    public function put($key, $value, $minutes) {
         $this->forever($key, $value);
 
         $this->redis->expire($key, $minutes * 60);
@@ -72,8 +69,7 @@ class Redis extends Driver {
      * @param  mixed   $value
      * @return void
      */
-    public function forever($key, $value)
-    {
+    public function forever($key, $value) {
         $this->redis->set($key, serialize($value));
     }
 
@@ -83,8 +79,7 @@ class Redis extends Driver {
      * @param  string  $key
      * @return void
      */
-    public function forget($key)
-    {
+    public function forget($key) {
         $this->redis->del($key);
     }
 
@@ -93,8 +88,7 @@ class Redis extends Driver {
      *
      * @return void
      */
-    public function flush()
-    {
+    public function flush() {
         $this->redis->flushdb();
     }
 

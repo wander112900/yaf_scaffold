@@ -1,6 +1,7 @@
 <?php
 
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
 /**
  * Sets an authenticity token to session and validates it against POST
  * submissions.
@@ -18,31 +19,25 @@
  * After submission of the form, the plugin will attempt to validate the
  * auth_token an will throw an \Exception if tokens are not equal.
  */
-class AuthTokenPlugin extends Yaf\Plugin_Abstract
-{
+class AuthTokenPlugin extends Yaf\Plugin_Abstract {
 
-    public function routerShutdown(Yaf\Request_Abstract $request ,
-        Yaf\Response_Abstract $response
+    public function routerShutdown(Yaf\Request_Abstract $request, Yaf\Response_Abstract $response
     ) {
         $this->auth_token();
     }
 
-    public function dispatchLoopStartup(Yaf\Request_Abstract $request,
-        Yaf\Response_Abstract $response
-    ){
+    public function dispatchLoopStartup(Yaf\Request_Abstract $request, Yaf\Response_Abstract $response
+    ) {
 
         $this->verify_auth_token($request);
     }
 
-    protected function verify_auth_token($request)
-    {
+    protected function verify_auth_token($request) {
         $config = Yaf\Application::app()->getConfig();
 
-        if ( $post = $request->getPost())
-        {
-            if (   !isset($post['_auth_token'])
-                || $post['_auth_token'] !== $this->auth_token()
-            ){
+        if ($post = $request->getPost()) {
+            if (!isset($post['_auth_token']) || $post['_auth_token'] !== $this->auth_token()
+            ) {
                 throw new \Exception('Invalid authenticity token!');
             } else {
                 $session = Yaf\Session::getInstance();
@@ -57,11 +52,10 @@ class AuthTokenPlugin extends Yaf\Plugin_Abstract
      *
      * @return string The authenticity token string.
      */
-    protected function auth_token()
-    {
+    protected function auth_token() {
         $session = Yaf\Session::getInstance();
         $session->auth_token = $session->auth_token
-            ?: base64_encode(sha1(uniqid(rand(), true)));
+                ? : base64_encode(sha1(uniqid(rand(), true)));
         return $session->auth_token;
     }
 

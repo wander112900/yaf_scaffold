@@ -1,4 +1,6 @@
-<?php namespace Cache\Drivers;
+<?php
+
+namespace Cache\Drivers;
 
 class Memcached extends Sectionable {
 
@@ -23,8 +25,7 @@ class Memcached extends Sectionable {
      * @param  string     $key
      * @return void
      */
-    public function __construct(\Memcached $memcache, $key)
-    {
+    public function __construct(\Memcached $memcache, $key) {
         $this->key = $key;
         $this->memcache = $memcache;
     }
@@ -35,9 +36,8 @@ class Memcached extends Sectionable {
      * @param  string  $key
      * @return bool
      */
-    public function has($key)
-    {
-        return ( ! is_null($this->get($key)));
+    public function has($key) {
+        return (!is_null($this->get($key)));
     }
 
     /**
@@ -46,16 +46,12 @@ class Memcached extends Sectionable {
      * @param  string  $key
      * @return mixed
      */
-    protected function retrieve($key)
-    {
-        if ($this->sectionable($key))
-        {
+    protected function retrieve($key) {
+        if ($this->sectionable($key)) {
             list($section, $key) = $this->parse($key);
 
             return $this->get_from_section($section, $key);
-        }
-        elseif (($cache = $this->memcache->get($this->key.$key)) !== false)
-        {
+        } elseif (($cache = $this->memcache->get($this->key . $key)) !== false) {
             return $cache;
         }
     }
@@ -64,8 +60,8 @@ class Memcached extends Sectionable {
      * Write an item to the cache for a given number of minutes.
      *
      * <code>
-     *		// Put an item in the cache for 15 minutes
-     *		Cache::put('name', 'Taylor', 15);
+     * 		// Put an item in the cache for 15 minutes
+     * 		Cache::put('name', 'Taylor', 15);
      * </code>
      *
      * @param  string  $key
@@ -73,18 +69,14 @@ class Memcached extends Sectionable {
      * @param  int     $minutes
      * @return void
      */
-    public function put($key, $value, $minutes)
-    {
-        if ($this->sectionable($key))
-        {
+    public function put($key, $value, $minutes) {
+        if ($this->sectionable($key)) {
             var_dump($key);
             list($section, $key) = $this->parse($key);
 
             return $this->put_in_section($section, $key, $value, $minutes);
-        }
-        else
-        {
-            $this->memcache->set($this->key.$key, $value, $minutes * 60);
+        } else {
+            $this->memcache->set($this->key . $key, $value, $minutes * 60);
         }
     }
 
@@ -95,16 +87,12 @@ class Memcached extends Sectionable {
      * @param  mixed   $value
      * @return void
      */
-    public function forever($key, $value)
-    {
-        if ($this->sectionable($key))
-        {
+    public function forever($key, $value) {
+        if ($this->sectionable($key)) {
             list($section, $key) = $this->parse($key);
 
             return $this->forever_in_section($section, $key, $value);
-        }
-        else
-        {
+        } else {
             return $this->put($key, $value, 0);
         }
     }
@@ -115,24 +103,17 @@ class Memcached extends Sectionable {
      * @param  string  $key
      * @return void
      */
-    public function forget($key)
-    {
-        if ($this->sectionable($key))
-        {
+    public function forget($key) {
+        if ($this->sectionable($key)) {
             list($section, $key) = $this->parse($key);
 
-            if ($key == '*')
-            {
+            if ($key == '*') {
                 $this->forget_section($section);
-            }
-            else
-            {
+            } else {
                 $this->forget_in_section($section, $key);
             }
-        }
-        else
-        {
-            $this->memcache->delete($this->key.$key);
+        } else {
+            $this->memcache->delete($this->key . $key);
         }
     }
 
@@ -142,9 +123,8 @@ class Memcached extends Sectionable {
      * @param  string    $section
      * @return int|bool
      */
-    public function forget_section($section)
-    {
-        return $this->memcache->increment($this->key.$this->section_key($section));
+    public function forget_section($section) {
+        return $this->memcache->increment($this->key . $this->section_key($section));
     }
 
     /**
@@ -153,12 +133,10 @@ class Memcached extends Sectionable {
      * @param  string  $section
      * @return int
      */
-    protected function section_id($section)
-    {
-        return $this->sear($this->section_key($section), function()
-    {
-        return rand(1, 10000);
-    });
+    protected function section_id($section) {
+        return $this->sear($this->section_key($section), function() {
+                            return rand(1, 10000);
+                        });
     }
 
     /**
@@ -167,9 +145,8 @@ class Memcached extends Sectionable {
      * @param  string  $section
      * @return string
      */
-    protected function section_key($section)
-    {
-        return $section.'_section_key';
+    protected function section_key($section) {
+        return $section . '_section_key';
     }
 
     /**
@@ -179,9 +156,8 @@ class Memcached extends Sectionable {
      * @param  string  $key
      * @return string
      */
-    protected function section_item_key($section, $key)
-    {
-        return $section.'#'.$this->section_id($section).'#'.$key;
+    protected function section_item_key($section, $key) {
+        return $section . '#' . $this->section_id($section) . '#' . $key;
     }
 
 }

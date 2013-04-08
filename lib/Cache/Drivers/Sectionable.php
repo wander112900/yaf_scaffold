@@ -1,4 +1,6 @@
-<?php namespace Laravel\Cache\Drivers;
+<?php
+
+namespace Laravel\Cache\Drivers;
 
 abstract class Sectionable extends Driver {
 
@@ -24,8 +26,7 @@ abstract class Sectionable extends Driver {
      * @param  mixed   $default
      * @return mixed
      */
-    public function get_from_section($section, $key, $default = null)
-    {
+    public function get_from_section($section, $key, $default = null) {
         return $this->get($this->section_item_key($section, $key), $default);
     }
 
@@ -38,8 +39,7 @@ abstract class Sectionable extends Driver {
      * @param  int     $minutes
      * @return void
      */
-    public function put_in_section($section, $key, $value, $minutes)
-    {
+    public function put_in_section($section, $key, $value, $minutes) {
         $this->put($this->section_item_key($section, $key), $value, $minutes);
     }
 
@@ -51,8 +51,7 @@ abstract class Sectionable extends Driver {
      * @param  mixed   $value
      * @return void
      */
-    public function forever_in_section($section, $key, $value)
-    {
+    public function forever_in_section($section, $key, $value) {
         return $this->forever($this->section_item_key($section, $key), $value);
     }
 
@@ -66,8 +65,7 @@ abstract class Sectionable extends Driver {
      * @param  string  $function
      * @return mixed
      */
-    public function remember_in_section($section, $key, $default, $minutes, $function = 'put')
-    {
+    public function remember_in_section($section, $key, $default, $minutes, $function = 'put') {
         $key = $this->section_item_key($section, $key);
 
         return $this->remember($key, $default, $minutes, $function);
@@ -81,8 +79,7 @@ abstract class Sectionable extends Driver {
      * @param  mixed   $default
      * @return mixed
      */
-    public function sear_in_section($section, $key, $default)
-    {
+    public function sear_in_section($section, $key, $default) {
         return $this->sear($this->section_item_key($section, $key), $default);
     }
 
@@ -93,8 +90,7 @@ abstract class Sectionable extends Driver {
      * @param  string  $key
      * @return void
      */
-    public function forget_in_section($section, $key)
-    {
+    public function forget_in_section($section, $key) {
         return $this->forget($this->section_item_key($section, $key));
     }
 
@@ -112,8 +108,7 @@ abstract class Sectionable extends Driver {
      * @param  string  $key
      * @return bool
      */
-    protected function sectionable($key)
-    {
+    protected function sectionable($key) {
         return $this->implicit and $this->sectioned($key);
     }
 
@@ -123,8 +118,7 @@ abstract class Sectionable extends Driver {
      * @param  string  $key
      * @return bool
      */
-    protected function sectioned($key)
-    {
+    protected function sectioned($key) {
         return Util::str_contains($key, '::');
     }
 
@@ -134,8 +128,7 @@ abstract class Sectionable extends Driver {
      * @param  string  $key
      * @return array
      */
-    protected function parse($key)
-    {
+    protected function parse($key) {
         return explode('::', $key, 2);
     }
 

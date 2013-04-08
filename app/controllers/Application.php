@@ -8,8 +8,8 @@
  * All application controllers may inherit from this controller.
  * This controller uses Layout class (@see lib/Layout.php)
  */
-class ApplicationController extends Yaf\Controller_Abstract
-{
+class ApplicationController extends Yaf\Controller_Abstract {
+
     /**
      * The name of layout file.
      *
@@ -43,8 +43,7 @@ class ApplicationController extends Yaf\Controller_Abstract
      *
      * @return void
      */
-    public function init()
-    {
+    public function init() {
         // Set the layout.
         $this->getView()->setLayout($this->layout);
 
@@ -70,14 +69,12 @@ class ApplicationController extends Yaf\Controller_Abstract
      *
      * @return void 
      */
-    public function __set($name, $value)
-    {
+    public function __set($name, $value) {
         $this->$name = $value;
         $this->getView()->assignRef($name, $value);
     }
 
-    public function getConfig()
-    {
+    public function getConfig() {
         return $this->config;
     }
 
@@ -86,13 +83,12 @@ class ApplicationController extends Yaf\Controller_Abstract
      *
      * @return false
      */
-    public function forwardTo404()
-    {
-        $this->forward('Index','application','notFound');
-        $this->getView()->setScriptPath($this->getConfig()->application->directory 
-            . "/views");
+    public function forwardTo404() {
+        $this->forward('Index', 'application', 'notFound');
+        $this->getView()->setScriptPath($this->getConfig()->application->directory
+                . "/views");
         header('HTTP/1.0 404 Not Found');
-        return false;       
+        return false;
     }
 
     /**
@@ -100,8 +96,8 @@ class ApplicationController extends Yaf\Controller_Abstract
      *
      * @return void
      */
-    public function notFoundAction()
-    {
+    public function notFoundAction() {
+        
     }
 
 }

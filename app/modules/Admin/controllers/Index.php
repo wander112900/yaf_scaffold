@@ -1,21 +1,20 @@
 <?php
 
-class IndexController extends ApplicationController 
-{
+class IndexController extends ApplicationController {
+
     protected $layout = 'admin';
 
-    public function init() 
-    {
+    public function init() {
         parent::init();
 
         $this->getView()->setLayoutPath(
-            $this->getConfig()->application->directory 
-            . "/modules" . "/Admin" . "/views" . "/layouts"
+                $this->getConfig()->application->directory
+                . "/modules" . "/Admin" . "/views" . "/layouts"
         );
     }
 
-    public function indexAction() 
-    {
+    public function indexAction() {
         $this->heading = "Dashboard";
     }
+
 }

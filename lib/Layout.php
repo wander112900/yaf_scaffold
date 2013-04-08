@@ -53,7 +53,7 @@ class Layout implements \Yaf\View_Interface {
      *
      * @var array
      */
-    protected $options=array();
+    protected $options = array();
 
     /**
      *
@@ -96,8 +96,7 @@ class Layout implements \Yaf\View_Interface {
      *
      * @return void
      */
-    public function __construct($path, $options=array())
-    {
+    public function __construct($path, $options = array()) {
         $this->layout_path = $path;
         $this->options = $options;
     }
@@ -107,11 +106,9 @@ class Layout implements \Yaf\View_Interface {
      *
      * @return Yaf\View\Simple
      */
-    protected function engine()
-    {
-        $this->engine =  $this->engine ?: new \Yaf\View\Simple(
-            $this->tpl_dir,
-            $this->options
+    protected function engine() {
+        $this->engine = $this->engine ? : new \Yaf\View\Simple(
+                $this->tpl_dir, $this->options
         );
 
         return $this->engine;
@@ -126,8 +123,7 @@ class Layout implements \Yaf\View_Interface {
      *
      * @return void
      */
-    public function setScriptPath($path)
-    {
+    public function setScriptPath($path) {
         if (is_readable($path)) {
             $this->tpl_dir = $path;
             $this->engine()->setScriptPath($path);
@@ -148,8 +144,7 @@ class Layout implements \Yaf\View_Interface {
      *
      * @return string
      */
-    public function getScriptPath()
-    {
+    public function getScriptPath() {
         return $this->engine()->getScriptPath();
     }
 
@@ -160,8 +155,7 @@ class Layout implements \Yaf\View_Interface {
      *
      * @return void
      */
-    public function setLayout($name)
-    {
+    public function setLayout($name) {
         $this->layout = $name;
     }
 
@@ -170,14 +164,11 @@ class Layout implements \Yaf\View_Interface {
      *
      * @return string the name of layout file without extension
      */
-    public function getLayout()
-    {
+    public function getLayout() {
         return $this->layout;
     }
 
-
-    public function setLayoutPath($path)
-    {
+    public function setLayoutPath($path) {
         $this->layout_path = $path;
     }
 
@@ -186,8 +177,7 @@ class Layout implements \Yaf\View_Interface {
      *
      * @return string
      */
-    public function getLayoutPath()
-    {
+    public function getLayoutPath() {
         $config = \Yaf\Application::app()->getConfig()->get('application');
         return $this->layout_path . "/" . $this->layout . ".{$config->view->ext}";
     }
@@ -200,8 +190,7 @@ class Layout implements \Yaf\View_Interface {
      *
      * @return void
      */
-    public function __set($name, $value)
-    {
+    public function __set($name, $value) {
         $this->assign($name, $value);
     }
 
@@ -212,8 +201,7 @@ class Layout implements \Yaf\View_Interface {
      *
      * @return boolean
      */
-    public function __isset($name)
-    {
+    public function __isset($name) {
         return (null !== $this->engine()->$name);
     }
 
@@ -224,8 +212,7 @@ class Layout implements \Yaf\View_Interface {
      *
      * @return void
      */
-    public function __unset($name)
-    {
+    public function __unset($name) {
         $this->engine()->clear($name);
     }
 
@@ -244,8 +231,7 @@ class Layout implements \Yaf\View_Interface {
      *
      * @return void
      */
-    public function assign($name, $value = null)
-    {
+    public function assign($name, $value = null) {
 
         $this->tpl_vars[$name] = $value;
 
@@ -256,8 +242,7 @@ class Layout implements \Yaf\View_Interface {
      * Assign variables by reference to the template
      *
      */
-    public function assignRef($name, &$value)
-    {
+    public function assignRef($name, &$value) {
         $this->tpl_vars[$name] = $value;
 
         $this->engine()->assignRef($name, $value);
@@ -289,7 +274,7 @@ class Layout implements \Yaf\View_Interface {
      *
      * @return string The view or layout template output.
      */
-    public function render($tpl, $tpl_vars=array()) {
+    public function render($tpl, $tpl_vars = array()) {
 
         $tpl_vars = array_merge($this->tpl_vars, $tpl_vars);
 
@@ -316,8 +301,7 @@ class Layout implements \Yaf\View_Interface {
         $tpl_vars['_content_'] = $this->content;
 
         return $this->engine()->render(
-            $this->getLayoutPath(),
-            $tpl_vars
+                        $this->getLayoutPath(), $tpl_vars
         );
     }
 
@@ -329,7 +313,7 @@ class Layout implements \Yaf\View_Interface {
      *
      * @return void
      */
-    public function display($tpl, $tpl_vars=array()) {
+    public function display($tpl, $tpl_vars = array()) {
         echo $this->render($tpl, $tpl_vars);
     }
 

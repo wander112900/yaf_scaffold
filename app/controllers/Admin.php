@@ -1,6 +1,5 @@
 <?php
 
-class AdminController extends ApplicationController 
-{
-
+class AdminController extends ApplicationController {
+    
 }

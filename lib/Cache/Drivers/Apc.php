@@ -1,4 +1,6 @@
-<?php namespace Cache\Drivers;
+<?php
+
+namespace Cache\Drivers;
 
 class Apc extends Driver {
 
@@ -15,8 +17,7 @@ class Apc extends Driver {
      * @param  string  $key
      * @return void
      */
-    public function __construct($key)
-    {
+    public function __construct($key) {
         $this->key = $key;
     }
 
@@ -26,9 +27,8 @@ class Apc extends Driver {
      * @param  string  $key
      * @return bool
      */
-    public function has($key)
-    {
-        return ( ! is_null($this->get($key)));
+    public function has($key) {
+        return (!is_null($this->get($key)));
     }
 
     /**
@@ -37,10 +37,8 @@ class Apc extends Driver {
      * @param  string  $key
      * @return mixed
      */
-    protected function retrieve($key)
-    {
-        if (($cache = apc_fetch($this->key.$key)) !== false)
-        {
+    protected function retrieve($key) {
+        if (($cache = apc_fetch($this->key . $key)) !== false) {
             return $cache;
         }
     }
@@ -49,8 +47,8 @@ class Apc extends Driver {
      * Write an item to the cache for a given number of minutes.
      *
      * <code>
-     *		// Put an item in the cache for 15 minutes
-     *		Cache::put('name', 'Taylor', 15);
+     * 		// Put an item in the cache for 15 minutes
+     * 		Cache::put('name', 'Taylor', 15);
      * </code>
      *
      * @param  string  $key
@@ -58,9 +56,8 @@ class Apc extends Driver {
      * @param  int     $minutes
      * @return void
      */
-    public function put($key, $value, $minutes)
-    {
-        apc_store($this->key.$key, $value, $minutes * 60);
+    public function put($key, $value, $minutes) {
+        apc_store($this->key . $key, $value, $minutes * 60);
     }
 
     /**
@@ -70,8 +67,7 @@ class Apc extends Driver {
      * @param  mixed   $value
      * @return void
      */
-    public function forever($key, $value)
-    {
+    public function forever($key, $value) {
         return $this->put($key, $value, 0);
     }
 
@@ -81,9 +77,8 @@ class Apc extends Driver {
      * @param  string  $key
      * @return void
      */
-    public function forget($key)
-    {
-        apc_delete($this->key.$key);
+    public function forget($key) {
+        apc_delete($this->key . $key);
     }
 
 }

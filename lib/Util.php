@@ -11,7 +11,8 @@ class Util {
      */
     static public function str_contains($haystack, $needle) {
         foreach ((array) $needle as $n) {
-            if (strpos($haystack, $n) !== false) return true;
+            if (strpos($haystack, $n) !== false)
+                return true;
         }
 
         return false;
@@ -26,6 +27,7 @@ class Util {
      * @return mixed
      */
     static public function value($value) {
-        return (is_callable($value) and ! is_string($value)) ? call_user_func($value) : $value;
+        return (is_callable($value) and !is_string($value)) ? call_user_func($value) : $value;
     }
+
 }

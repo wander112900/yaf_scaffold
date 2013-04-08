@@ -1,4 +1,6 @@
-<?php namespace Cache;
+<?php
+
+namespace Cache;
 
 define('CRLF', "\r\n");
 
@@ -54,8 +56,7 @@ class Redis {
      * @param  int     $database
      * @return void
      */
-    public function __construct($host, $port, $password = null, $database = 0)
-    {
+    public function __construct($host, $port, $password = null, $database = 0) {
         $this->host = $host;
         $this->port = $port;
         $this->password = $password;
@@ -68,29 +69,25 @@ class Redis {
      * The given name should correspond to a Redis database in the configuration file.
      *
      * <code>
-     *		// Get the default Redis database instance
-     *		$redis = Redis::db();
+     * 		// Get the default Redis database instance
+     * 		$redis = Redis::db();
      *
-     *		// Get a specified Redis database instance
-     *		$reids = Redis::db('redis_2');
+     * 		// Get a specified Redis database instance
+     * 		$reids = Redis::db('redis_2');
      * </code>
      *
      * @param  string  $name
      * @return Redis
      */
-    public static function db($name = 'default')
-    {
-        if ( ! isset(static::$databases[$name]))
-        {
-            if (is_null($config = \Yaf\Application::app()->getConfig()->get("database.redis.{$name}")))
-            {
+    public static function db($name = 'default') {
+        if (!isset(static::$databases[$name])) {
+            if (is_null($config = \Yaf\Application::app()->getConfig()->get("database.redis.{$name}"))) {
                 throw new \Exception("Redis database [$name] is not defined.");
             }
 
             extract($config);
 
-            if ( ! isset($password))
-            {
+            if (!isset($password)) {
                 $password = null;
             }
 
@@ -115,8 +112,7 @@ class Redis {
      * @param  array   $parameters
      * @return mixed
      */
-    public function run($method, $parameters)
-    {
+    public function run($method, $parameters) {
         fwrite($this->connect(), $this->command($method, (array) $parameters));
 
         $response = trim(fgets($this->connection, 512));
@@ -130,25 +126,23 @@ class Redis {
      * @param  string  $response
      * @return mixed
      */
-    protected function parse($response)
-    {
-        switch (substr($response, 0, 1))
-        {
-        case '-':
-            throw new \Exception('Redis error: '.substr(trim($response), 4));
+    protected function parse($response) {
+        switch (substr($response, 0, 1)) {
+            case '-':
+                throw new \Exception('Redis error: ' . substr(trim($response), 4));
 
-        case '+':
-        case ':':
-            return $this->inline($response);
+            case '+':
+            case ':':
+                return $this->inline($response);
 
-        case '$':
-            return $this->bulk($response);
+            case '$':
+                return $this->bulk($response);
 
-        case '*':
-            return $this->multibulk($response);
+            case '*':
+                return $this->multibulk($response);
 
-        default:
-            throw new \Exception("Unknown Redis response: ".substr($response, 0, 1));
+            default:
+                throw new \Exception("Unknown Redis response: " . substr($response, 0, 1));
         }
     }
 
@@ -157,19 +151,17 @@ class Redis {
      *
      * @return resource
      */
-    protected function connect()
-    {
-        if ( ! is_null($this->connection)) return $this->connection;
+    protected function connect() {
+        if (!is_null($this->connection))
+            return $this->connection;
 
         $this->connection = @fsockopen($this->host, $this->port, $error, $message);
 
-        if ($this->connection === false)
-        {
+        if ($this->connection === false) {
             throw new \Exception("Error making Redis connection: {$error} - {$message}");
         }
 
-        if ( $this->password )
-        {
+        if ($this->password) {
             $this->auth($this->password);
         }
 
@@ -196,17 +188,15 @@ class Redis {
      * @param  array   $parameters
      * @return string
      */
-    protected function command($method, $parameters)
-    {
-        $command  = '*'.(count($parameters) + 1).CRLF;
+    protected function command($method, $parameters) {
+        $command = '*' . (count($parameters) + 1) . CRLF;
 
-        $command .= '$'.strlen($method).CRLF;
+        $command .= '$' . strlen($method) . CRLF;
 
-        $command .= strtoupper($method).CRLF;
+        $command .= strtoupper($method) . CRLF;
 
-        foreach ($parameters as $parameter)
-        {
-            $command .= '$'.strlen($parameter).CRLF.$parameter.CRLF;
+        foreach ($parameters as $parameter) {
+            $command .= '$' . strlen($parameter) . CRLF . $parameter . CRLF;
         }
 
         return $command;
@@ -218,8 +208,7 @@ class Redis {
      * @param  string  $response
      * @return string
      */
-    protected function inline($response)
-    {
+    protected function inline($response) {
         return substr(trim($response), 1);
     }
 
@@ -229,26 +218,23 @@ class Redis {
      * @param  string  $head
      * @return string
      */
-    protected function bulk($head)
-    {
-        if ($head == '$-1') return;
+    protected function bulk($head) {
+        if ($head == '$-1')
+            return;
 
         list($read, $response, $size) = array(0, '', substr($head, 1));
 
-        if ($size > 0)
-        {
-            do
-        {
-            // Calculate and read the appropriate bytes off of the Redis response.
-            // We'll read off the response in 1024 byte chunks until the entire
-            // response has been read from the database.
-            $block = (($remaining = $size - $read) < 1024) ? $remaining : 1024;
+        if ($size > 0) {
+            do {
+                // Calculate and read the appropriate bytes off of the Redis response.
+                // We'll read off the response in 1024 byte chunks until the entire
+                // response has been read from the database.
+                $block = (($remaining = $size - $read) < 1024) ? $remaining : 1024;
 
-            $response .= fread($this->connection, $block);
+                $response .= fread($this->connection, $block);
 
-            $read += $block;
-
-        } while ($read < $size);
+                $read += $block;
+            } while ($read < $size);
         }
 
         // The response ends with a trailing CRLF. So, we need to read that off
@@ -265,17 +251,16 @@ class Redis {
      * @param  string  $head
      * @return array
      */
-    protected function multibulk($head)
-    {
-        if (($count = substr($head, 1)) == '-1') return;
+    protected function multibulk($head) {
+        if (($count = substr($head, 1)) == '-1')
+            return;
 
         $response = array();
 
         // Iterate through each bulk response in the multi-bulk and parse it out
         // using the "parse" method since a multi-bulk response is just a list
         // of plain old Redis database responses.
-        for ($i = 0; $i < $count; $i++)
-        {
+        for ($i = 0; $i < $count; $i++) {
             $response[] = $this->parse(trim(fgets($this->connection, 512)));
         }
 
@@ -285,16 +270,14 @@ class Redis {
     /**
      * Dynamically make calls to the Redis database.
      */
-    public function __call($method, $parameters)
-    {
+    public function __call($method, $parameters) {
         return $this->run($method, $parameters);
     }
 
     /**
      * Dynamically pass static method calls to the Redis instance.
      */
-    public static function __callStatic($method, $parameters)
-    {
+    public static function __callStatic($method, $parameters) {
         return static::db()->run($method, $parameters);
     }
 
@@ -303,10 +286,8 @@ class Redis {
      *
      * @return void
      */
-    public function __destruct()
-    {
-        if ($this->connection)
-        {
+    public function __destruct() {
+        if ($this->connection) {
             fclose($this->connection);
         }
     }

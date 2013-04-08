@@ -1,6 +1,7 @@
 <?php
 
-class Backend_BackendController extends ApplicationController
-{
-    protected $layout='backend';
+class Backend_BackendController extends ApplicationController {
+
+    protected $layout = 'backend';
+
 }
