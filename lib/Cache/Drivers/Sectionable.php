@@ -1,4 +1,6 @@
-<?php namespace Cache\Drivers;
+<?php namespace Laravel\Cache\Drivers;
+
+use Helper\Util;
 
 abstract class Sectionable extends Driver {
 
@@ -125,7 +127,7 @@ abstract class Sectionable extends Driver {
      */
     protected function sectioned($key)
     {
-        return (strpos($key, '::') !== FALSE) ? TRUE : FALSE;
+        return Util::str_contains($key, '::');
     }
 
     /**
