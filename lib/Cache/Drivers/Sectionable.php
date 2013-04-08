@@ -1,7 +1,5 @@
 <?php namespace Laravel\Cache\Drivers;
 
-use Helper\Util;
-
 abstract class Sectionable extends Driver {
 
     /**

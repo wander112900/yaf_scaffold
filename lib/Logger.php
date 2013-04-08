@@ -1,13 +1,8 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
-
-namespace eYaf;
-
 define('DS',DIRECTORY_SEPARATOR);
 
-class Logger extends \SplFileObject
-{
+class Logger extends \SplFileObject {
     const RED    = '1;31m';
     const GREEN  = '1;32m';
     const PURPLE = '1;35m';
@@ -48,11 +43,11 @@ class Logger extends \SplFileObject
 
     public static function getLogger($env=null, $open_mode="a")
     {
-        if (static::$logger_instance) return static::$logger_instance; 
+        if (static::$logger_instance) return static::$logger_instance;
         $env = $env ?: \Yaf\ENVIRON;
         $filename = APP_PATH . '/log' . DS . $env . '.log';
         static::$logger_instance = new static($filename,$open_mode);
-        return static::$logger_instance; 
+        return static::$logger_instance;
     }
 
     public function __construct($filename=null, $open_mode = "a")
@@ -84,23 +79,23 @@ class Logger extends \SplFileObject
 
     public function logRequest($request)
     {
-        $this->log("Processing " 
+        $this->log("Processing "
             . $request->getModuleName() .'\\'
-            . $request->getControllerName() 
-            . "Controller#" 
+            . $request->getControllerName()
+            . "Controller#"
             . $request->getActionName()
             . " (for {$request->getServer('REMOTE_ADDR')}"
             . " at " . date('Y-m-d H:i:s') .")"
             . " [{$request->getMethod()}]"
         );
         $params = array();
-        $params = array_merge($params, 
-            $request->getParams(), 
-            $request->getPost(), 
+        $params = array_merge($params,
+            $request->getParams(),
+            $request->getPost(),
             $request->getFiles(),
             $request->getQuery()
         );
-        $this->log("Parameters: " . print_r($params, true));   
+        $this->log("Parameters: " . print_r($params, true));
     }
 
     public function logException($exception)
@@ -113,6 +108,6 @@ class Logger extends \SplFileObject
             . " at line "
             . $exception->getLine()
         );
-        $this->log($exception->getTraceAsString());       
+        $this->log($exception->getTraceAsString());
     }
 }

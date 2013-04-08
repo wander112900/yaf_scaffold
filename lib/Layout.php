@@ -1,17 +1,12 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
-
-namespace eYaf;
-
-
 /**
  * Layout class used for render layouts and views.
  *
- * Layout class allows to use of a base layout skeleton and render views inside 
+ * Layout class allows to use of a base layout skeleton and render views inside
  * this layout template.
  * The concept is to not render and display the view template directly but storing it
- * in {@link $content} property. Then will render the skeleton layout and 
+ * in {@link $content} property. Then will render the skeleton layout and
  * pass the {@link $content} property to it.
  * <code>
  *  application/views/layouts/front.phtml
@@ -21,15 +16,15 @@ namespace eYaf;
  *          <title><?php echo $title ?></title>
  *      </head>
  *      <body>
- *          <?= $_content_ // This is where your view from each action 
+ *          <?= $_content_ // This is where your view from each action
  *          will be displayed ?>
  *      </body>
  *  </html>
  * </code>
- * 
+ *
  * If no layout is defined then returns the renderd action view template.
  *
- * Also allows to set variable to views and access them from the base 
+ * Also allows to set variable to views and access them from the base
  * skeleton layout. In above layout $title variable is set to title tag.
  * Then in a view template we can set the value for $title variable.
  * <code>
@@ -42,8 +37,7 @@ namespace eYaf;
  * @author Andreas Kollaros <mail@dot.com>
  *
  */
-class Layout implements \Yaf\View_Interface
-{
+class Layout implements \Yaf\View_Interface {
 
     /**
      * The template engine to render views and layout templates.
@@ -97,26 +91,26 @@ class Layout implements \Yaf\View_Interface
     /**
      * Constructor
      *
-     * @param array $options key/value pair of options to be assigned to 
+     * @param array $options key/value pair of options to be assigned to
      *                       template engine.
      *
      * @return void
      */
-    public function __construct($path, $options=array()) 
+    public function __construct($path, $options=array())
     {
         $this->layout_path = $path;
         $this->options = $options;
     }
 
     /**
-     * Return the instance of a template engine. 
+     * Return the instance of a template engine.
      *
      * @return Yaf\View\Simple
      */
     protected function engine()
     {
         $this->engine =  $this->engine ?: new \Yaf\View\Simple(
-            $this->tpl_dir, 
+            $this->tpl_dir,
             $this->options
         );
 
@@ -139,7 +133,7 @@ class Layout implements \Yaf\View_Interface
             $this->engine()->setScriptPath($path);
 
             // Overwirte layouts path by setting it where views path is.
-            // This will force layout in modules to be placed in 
+            // This will force layout in modules to be placed in
             // modules/views/layouts directory
             $this->layout_path = $path . "/layouts";
 
@@ -190,7 +184,7 @@ class Layout implements \Yaf\View_Interface
     /**
      * Get full layout path with filename and extension.
      *
-     * @return string 
+     * @return string
      */
     public function getLayoutPath()
     {
@@ -242,7 +236,7 @@ class Layout implements \Yaf\View_Interface
      * an array of key => value pairs to set en masse.
      *
      * @see __set()
-     * 
+     *
      * @param string|array $name  The assignment strategy to use (key or
      *                            array of key => value pairs)
      * @param mixed        $value (Optional) If assigning a named variable,
@@ -250,7 +244,7 @@ class Layout implements \Yaf\View_Interface
      *
      * @return void
      */
-    public function assign($name, $value = null) 
+    public function assign($name, $value = null)
     {
 
         $this->tpl_vars[$name] = $value;
@@ -287,7 +281,7 @@ class Layout implements \Yaf\View_Interface
      * Processes a view and returns the output.
      *
      * This method called once from controller to render the given view.
-     * So render the view at $this->content property and then render the 
+     * So render the view at $this->content property and then render the
      * layout template.
      *
      * @param string $tpl      The template to process.
@@ -308,10 +302,10 @@ class Layout implements \Yaf\View_Interface
             return $this->content;
         }
 
-        // If we assign some variables into view template, then maybe we need 
+        // If we assign some variables into view template, then maybe we need
         // them to layout view.
         // Hack??
-        // Get template vars from view via Reflection class and assign them to 
+        // Get template vars from view via Reflection class and assign them to
         // layout view
         $ref = new \ReflectionClass($this->engine());
         $prop = $ref->getProperty('_tpl_vars');
@@ -322,7 +316,7 @@ class Layout implements \Yaf\View_Interface
         $tpl_vars['_content_'] = $this->content;
 
         return $this->engine()->render(
-            $this->getLayoutPath(), 
+            $this->getLayoutPath(),
             $tpl_vars
         );
     }

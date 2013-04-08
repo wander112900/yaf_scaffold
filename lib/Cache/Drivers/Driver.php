@@ -1,5 +1,4 @@
 <?php namespace Cache\Drivers;
-use Helper\Util;
 
 abstract class Driver {
 

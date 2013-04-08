@@ -1,5 +1,7 @@
 <?php namespace Cache;
 
+define('CRLF', "\r\n");
+
 class Redis {
 
     /**
