@@ -11,7 +11,7 @@ Base on [yaf_base_application](https://github.com/akDeveloper/yaf_base_applicati
 * Mysql server
 * Apache, Nginx or Lighttpd web server.
 * mod_rewrite and .htaccess enabled for Apache web server.
-* Cache Server now just for Memcached,(redis,apc etc. will be supported soon), if you use cache lib;
+* Cache Driver (memcached,redis,apc. Others will be supported soon).
 
 ## Configuration
 
@@ -26,7 +26,6 @@ Base on [yaf_base_application](https://github.com/akDeveloper/yaf_base_applicati
 
 * A Layout class that allows to render views inside a base html layout `lib/Layout.php`. Layouts directory can be defined in application.ini
 * A Logger class `lib/Logger.php` and a `LoggerPlugin` to log info about requests and database queries. (Make sure that log directory is readable.)
-* A custom Request class `lib/Request.php` that extends `Yaf\Request\Http` and offers input filter for request params, posts and queries.
 * An Authenticity token plugin `AuthTokenPlugin`to prevent Cross-site request forgery (csrf). Can be turned on/off from application.ini
 * A base `ApplicationController` which adds some base functionality like 404 not found page.
 * A `RestfullController` to make easy crud (create, read, update, delete) actions.
