@@ -63,7 +63,9 @@ class Cache {
         {
         case 'memcached':
             return new Drivers\Memcached(Memcached::connection(),
-            \Yaf\Application::app()->getConfig()->get('cache.key'));
+                \Yaf\Application::app()->getConfig()->get('cache.key'));
+        case 'redis':
+            return new Drivers\Redis(Redis::db());
         default:
             throw new \Exception("Cache driver {$driver} is not supported.");
         }
