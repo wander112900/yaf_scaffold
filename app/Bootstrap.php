@@ -14,11 +14,12 @@ class Bootstrap extends \Yaf\Bootstrap_Abstract {
 
     public function _initCache(Yaf\Dispatcher $dispatcher) {
         $driver = $this->config->get('cache.driver');
-        Cache\Cache::driver($driver);
+        Cache::driver($driver);
     }
 
     public function _initDatabase(Yaf\Dispatcher $dispatcher) {
-        
+        $arrConf = $this->config->get('db')->toArray();
+         Db::factory($arrConf);
     }
 
     public function _initPlugins(Yaf\Dispatcher $dispatcher) {
@@ -26,10 +27,6 @@ class Bootstrap extends \Yaf\Bootstrap_Abstract {
 
         $this->config->application->protect_from_csrf &&
                 $dispatcher->registerPlugin(new AuthTokenPlugin());
-    }
-
-    public function _initLoader(Yaf\Dispatcher $dispatcher) {
-        
     }
 
     public function _initRoute(Yaf\Dispatcher $dispatcher) {

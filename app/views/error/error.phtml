@@ -29,23 +29,23 @@
         </style>
     </head>
     <body>
-<h1><?php echo $e_class ?></h1>
-<pre class="strong"><span class="exception"><?php echo  $e_class; ?></span>: <span class="message"><?php echo $e->getMessage()?></span> in file <span class="file"><?php echo $e->getFile()?></span> at line <span class="line"><?php echo $e->getLine()?></span></pre>
+        <h1><?php echo $e_class ?></h1>
+        <pre class="strong"><span class="exception"><?php echo $e_class; ?></span>: <span class="message"><?php echo $e->getMessage() ?></span> in file <span class="file"><?php echo $e->getFile() ?></span> at line <span class="line"><?php echo $e->getLine() ?></span></pre>
 
 <div id="traces">
     <h2>Exception Trace</h2>
-<pre><code><?php echo $e->getTraceAsString()?></code></pre>
-<h2>Debug Backtrace</h2>
-<pre><code>
-<?php debug_print_backtrace(); ?>
+<pre><code><?php echo $e->getTraceAsString() ?></code></pre>
+            <h2>Debug Backtrace</h2>
+            <pre><code>
+                    <?php debug_print_backtrace(); ?>
 </code></pre>
-</div>
-<h2 style="margin-top: 30px;">Request</h2>
-<p>
-    <b>Parameters: </b>
-    <pre>
-<?php print_r($params) ?>
-    </pre>
-</p>
+        </div>
+        <h2 style="margin-top: 30px;">Request</h2>
+        <p>
+            <b>Parameters: </b>
+            <pre>
+                <?php print_r($params) ?>
+            </pre>
+        </p>
     </body>
 </html>

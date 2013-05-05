@@ -63,7 +63,6 @@ class Html {
         return '<link href="' . $url . '" ' . self::attributes($attrs) . '/>' . PHP_EOL;
     }
 
-
     public static function appendJavascript(ViewInterface $view, $args) {
         if (!isset($view->javascripts)) {
             $view->assign('javascripts', '');
@@ -78,7 +77,6 @@ class Html {
             $view->javascripts .= self::javascript($url . '.js');
         }
     }
-
 
     public static function appendCss(ViewInterface $view, $args) {
         if (!isset($view->stylesheets)) {
