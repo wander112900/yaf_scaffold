@@ -3,11 +3,11 @@
 class BaseModel {
 
     /**
-     * Db name
+     * Db instance
      *
-     * @var string
+     * @var object
      */
-    protected $_db = '_db';
+    protected static $_dbInstance = NULL;
 
     /**
      * Table name, with prefix and main name
@@ -212,8 +212,12 @@ class BaseModel {
      */
     public function db() {
 
-        $instance = Yaf\Application::app()->getConfig()->get('db.instance');
-        return Yaf\Registry::get($instance);
+        if (self::$_dbInstance === NULL) {
+            $strInstance = Yaf\Application::app()->getConfig()->get('db.instance');
+            self::$_dbInstance = Yaf\Registry::get($strInstance);
+        }
+
+        return self::$_dbInstance;
     }
 
     /**
