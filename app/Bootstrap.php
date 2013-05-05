@@ -19,7 +19,8 @@ class Bootstrap extends \Yaf\Bootstrap_Abstract {
 
     public function _initDatabase(Yaf\Dispatcher $dispatcher) {
         $arrConf = $this->_config->get('db')->toArray();
-         Db::factory($arrConf);
+        $db = Db::factory($arrConf);
+        \Yaf\Registry::set($arrConf['instance'], $db);
     }
 
     public function _initPlugins(Yaf\Dispatcher $dispatcher) {

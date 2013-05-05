@@ -208,25 +208,12 @@ class BaseModel {
     /**
      * Connect db from config
      *
-     * @param array $config
-     * @param string
-     * @return Cola_Com_Db
+     * @return Db
      */
-    public function db($name = null) {
-        if (empty($name)) {
-            $name = $this->_db;
-        }
+    public function db() {
 
-        if (is_array($name)) {
-            return Db::factory($name);
-        }
-
-        $regName = "_db_{$name}";
-        if (!$db = \Yaf\Registry::get($regName)) {
-            \Yaf\Registry::set($regName, $db);
-        }
-
-        return $db;
+        $instance = Yaf\Application::app()->getConfig()->get('db.instance');
+        return Yaf\Registry::get($instance);
     }
 
     /**

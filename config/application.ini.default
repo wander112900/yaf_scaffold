@@ -29,6 +29,7 @@ cache.memcached.s1.host="127.0.0.1"
 cache.memcached.s1.port="11211"
 cache.memcached.s1.weight="0"
 ;database
+db.instance="_db"
 db.adapter="Pdo\Mysql"
 db.params.host="127.0.0.1"
 db.params.port=3306
