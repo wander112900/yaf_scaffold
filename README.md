@@ -12,6 +12,7 @@ Base on [yaf_base_application](https://github.com/akDeveloper/yaf_base_applicati
 * Apache, Nginx or Lighttpd web server.
 * mod_rewrite and .htaccess enabled for Apache web server.
 * Cache Driver (memcached,redis,apc. Others will be supported soon).
+* Simple Database (mysql,mysqli, pdo_mysql), masterslave was supported.
 
 ## Configuration
 
