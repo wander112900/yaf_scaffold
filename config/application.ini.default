@@ -22,15 +22,30 @@ application.encoding=UTF-8
 ;product section inherit from yaf section
 [product:yaf]
 ; user configuartions list here
-database.mysql.host="localhost"
-database.mysql.port=3306
-database.mysql.user=
-database.mysql.password=
-database.mysql.database=
-database.mysql.charset="utf8"
 ; Cache
 cache.driver="memcached"
 cache.key="test"
 cache.memcached.s1.host="127.0.0.1"
 cache.memcached.s1.port="11211"
 cache.memcached.s1.weight="0"
+;database
+db.adapter="Pdo\Mysql"
+db.params.host="127.0.0.1"
+db.params.port=3306
+db.params.user="root"
+db.params.password="root"
+db.params.charset="utf8"
+db.params.persistent=1
+db.master.host=""
+db.master.port=""
+db.master.user=""
+db.master.password=""
+db.master.charset=""
+db.master.persistent=""
+db.slave.host=""
+db.slave.port=""
+db.slave.user=""
+db.slave.password=""
+db.slave.charset=""
+db.slave.persistent=""
+db.masterslave=0
