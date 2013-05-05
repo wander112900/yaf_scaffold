@@ -6,12 +6,12 @@
  * The restfull controller.
  *
  * Restfull controller helps to easy create crud actions for a model.
- * Assuming that the Controller has the same name with your model. If you have 
- * a PostsController then Restfull controller will assume that your resource is 
- * the PostModel. 
+ * Assuming that the Controller has the same name with your model. If you have
+ * a PostsController then Restfull controller will assume that your resource is
+ * the PostModel.
  *
- * Notice that controller name is defined as `Posts`, plural, and model is 
- * defind as `Post` singular. RestfullController uses Inflect class to 
+ * Notice that controller name is defined as `Posts`, plural, and model is
+ * defind as `Post` singular. RestfullController uses Inflect class to
  * determinate the name of the Model to load {@link get_model_name()}
  *
  */
@@ -32,10 +32,10 @@ abstract class RestfullController extends ApplicationController {
     }
 
     /**
-     * Loads and displays a single resource asccording to Request::getParams() 
-     * values. 
+     * Loads and displays a single resource asccording to Request::getParams()
+     * values.
      *
-     * By default the uri to show a resource is /module/controller/show/id/1 
+     * By default the uri to show a resource is /module/controller/show/id/1
      *
      * @param int $id The id of resource to load
      */
@@ -120,11 +120,11 @@ abstract class RestfullController extends ApplicationController {
     /**
      * Creates a resource collection.
      *
-     * By default it finds all elements of the resource. You can overload this 
-     * methods to return custom queries of the resource like pagination and/or 
+     * By default it finds all elements of the resource. You can overload this
+     * methods to return custom queries of the resource like pagination and/or
      * search.
      *
-     * @return Orm\Mysql\Collection A collection object handling elements of 
+     * @return Orm\Mysql\Collection A collection object handling elements of
      *                              the resource
      */
     public function getResourceCollection() {
@@ -137,7 +137,7 @@ abstract class RestfullController extends ApplicationController {
      * Creates a resource by a given id.
      *
      * By default it finds the resource for the given id.
-     * Overload this method if you want to load a resource with additional 
+     * Overload this method if you want to load a resource with additional
      * criteria.
      *
      * @param int $id The id of resource to load.
@@ -152,6 +152,7 @@ abstract class RestfullController extends ApplicationController {
     }
 
     protected function get_model_name() {
+        //todo
         return Inflect::singularize($this->getRequest()->getControllerName())
                 . "Model";
     }
