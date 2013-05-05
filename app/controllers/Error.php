@@ -21,7 +21,7 @@ class ErrorController extends \Yaf\Controller_Abstract {
                 array(), $params, $this->getRequest()->getPost(), $this->getRequest()->getQuery()
         );
 
-        eYaf\Logger::getLogger()->logException($exception);
+        Logger::getLogger()->logException($exception);
 
         switch ($exception->getCode()) {
             case YAF\ERR\AUTOLOAD_FAILED:
@@ -41,7 +41,7 @@ class ErrorController extends \Yaf\Controller_Abstract {
                 break;
         }
 
-        eYaf\Logger::stopLogging();
+        Logger::stopLogging();
     }
 
 }
