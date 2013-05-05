@@ -2,30 +2,30 @@
 
 class Bootstrap extends \Yaf\Bootstrap_Abstract {
 
-    protected $config;
+    protected $_config;
 
     public function _initErrorHandler(Yaf\Dispatcher $dispatcher) {
         $dispatcher->setErrorHandler(array(get_class($this), 'error_handler'));
     }
 
     public function _initConfig(Yaf\Dispatcher $dispatcher) {
-        $this->config = Yaf\Application::app()->getConfig();
+        $this->_config = Yaf\Application::app()->getConfig();
     }
 
     public function _initCache(Yaf\Dispatcher $dispatcher) {
-        $driver = $this->config->get('cache.driver');
+        $driver = $this->_config->get('cache.driver');
         Cache::driver($driver);
     }
 
     public function _initDatabase(Yaf\Dispatcher $dispatcher) {
-        $arrConf = $this->config->get('db')->toArray();
+        $arrConf = $this->_config->get('db')->toArray();
          Db::factory($arrConf);
     }
 
     public function _initPlugins(Yaf\Dispatcher $dispatcher) {
         $dispatcher->registerPlugin(new LogPlugin());
 
-        $this->config->application->protect_from_csrf &&
+        $this->_config->application->protect_from_csrf &&
                 $dispatcher->registerPlugin(new AuthTokenPlugin());
     }
 
@@ -52,7 +52,7 @@ class Bootstrap extends \Yaf\Bootstrap_Abstract {
     }
 
     public function _initLayout(Yaf\Dispatcher $dispatcher) {
-        $layout = new Layout($this->config->application->layout->directory);
+        $layout = new Layout($this->_config->application->layout->directory);
         $dispatcher->setView($layout);
     }
 
