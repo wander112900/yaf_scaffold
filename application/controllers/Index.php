@@ -17,7 +17,7 @@ class IndexController extends ApiController {
     }
 
     public function TestAction() {
-    
+        echo \Easy\Ajax::ajax(array("hello" => "world"));    
     }
     
 }
