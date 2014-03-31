@@ -1,5 +1,2 @@
 log/*
-tests/*
-config/application.ini
-public/favicon.ico
-/nbproject/private/
+favicon.ico
