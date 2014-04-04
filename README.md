@@ -1,6 +1,7 @@
-# A base application for Yaf framework
+# A scaffold for php Yaf framework
 
-Base on [Yaf](https://github.com/laruence/php-yaf)
+* Base on [Yaf](https://github.com/laruence/php-yaf)
+* It can used for web and others backend server 
 
 
 ## Requirements
@@ -20,4 +21,4 @@ Base on [Yaf](https://github.com/laruence/php-yaf)
  
 ## Additions
 
-* For Json Api 
+* Good at Json Api server, you can add your rpc framwork in it also.
