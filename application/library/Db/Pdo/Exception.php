@@ -1,6 +1,6 @@
 <?php
 
-namespace Db;
+namespace Db\Pdo;
 
 class Exception extends \Exception {
 

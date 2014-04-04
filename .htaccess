@@ -1,0 +1,5 @@
+#for apache (.htaccess)
+RewriteEngine On
+RewriteRule ^/*public/ - [L]
+RewriteRule ^/*index\.php - [L]
+RewriteRule .* index.php

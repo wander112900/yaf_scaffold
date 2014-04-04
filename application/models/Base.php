@@ -16,6 +16,8 @@ class BaseModel {
      */
     protected static $_dbInstance = NULL;
 
+    protected static $_mdlInstance = array();
+
     /**
      * Table name, with prefix and main name
      *
@@ -47,6 +49,19 @@ class BaseModel {
     const UNKNOWN_ERROR = -9;
     const SYSTEM_ERROR = -8;
     const VALIDATE_ERROR = -7;
+
+    protected function __construct() {}
+    protected function __clone(){}
+    /* {{{ public static function getInstance() */
+    public static function getInstance() {
+        $class = get_called_class();
+        if (isset(self::$_mdlInstance[$class])) {
+            return self::$_mdlInstance[$class]; 
+        } else {
+            return self::$_mdlInstance[$class] = new $class(); 
+        }
+    }
+    /* }}} */
 
     /**
      * Load data
